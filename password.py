@@ -1,47 +1,38 @@
-# * * * * * * * * * * * * * * * * * * * * * * * *
-# Code Title : Lab 6 Code - Git / Version Control
-# Course : COP 3502C - Programming Fundamentals 1
-# Author : Megan McGinley Ferguson
-# Date: 3/6/2023
-# * * * * * * * * * * * * * * * * * * * * * * * *
-
-def pw_encoder(pw_raw):  #takes in string, converts to integer list for encoding, returns string
-    pw_enc = ''
-    pw_enc_list = []
-    pw_list = list(pw_raw)
-
-    pw_list = [int(num) for num in pw_list]
-
-    for num in pw_list[0:]:
-        num += 3  #encoding
-        pw_enc_list.append(num)
-
-    for num in pw_enc_list:
-        pw_enc += str(num)
-
-    return pw_enc
+def encode_password(password: str) -> str:
+    """Encodes a password by adding 3 to each digit."""
+    password_enc_list = [str(int(num) + 3) for num in password]  # simplified the encoding process using list comprehension
+    return ''.join(password_enc_list)
 
 
-def pw_decoder(pw_enc): #takes in string, converts to integer list for encoding, returns string
-    pass
+def decode_password(password_enc: str) -> str:
+    """Decodes a password by subtracting 3 from each digit."""
+    password_list = [str(int(num) - 3) for num in password_enc]  # simplified the decoding process using list comprehension
+    return ''.join(password_list)
+
 
 if __name__ == '__main__':
-
     menu_choice = 0
 
-    while menu_choice != 3: #loop until user quits program
-
+    while menu_choice != 3:
         print("Menu\n-----------\n1. Encode\n2. Decode\n3. Quit\n")
 
         menu_choice = int(input("Please enter an option: "))
 
         if menu_choice == 1:
-            pw_raw = input('Please enter your password to encode: ')
-            pw_enc = pw_encoder(pw_raw)
+            password_raw = input('Please enter your password to encode: ')
+            try:
+                password_enc = encode_password(password_raw)  # added a try-except block to catch invalid input
+            except ValueError:
+                print("Invalid input! Password should only contain digits.\n")
+                continue
             print("Your password has been encoded and stored!")
         elif menu_choice == 2:
-            print('FIX ME')
-            #pw_raw = pw_decoder(pw_enc)
-            #print(f'The encoded password is {pw_enc}, and the original password is {pw_raw}.')
+            password_enc = input('Please enter the encoded password: ')
+            try:
+                password_raw = decode_password(password_enc)  # added a try-except block to catch invalid input
+            except ValueError:
+                print("Invalid input! Encoded password should only contain digits.\n")
+                continue
+            print(f"The encoded password is {password_enc}, and the original password is {password_raw}.")  # used an f-string for string formatting
         elif menu_choice == 3:
             break
